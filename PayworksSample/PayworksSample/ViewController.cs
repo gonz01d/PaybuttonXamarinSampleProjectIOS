@@ -47,7 +47,21 @@ namespace PayworksSample
             ui.Configuration.TerminalParameters = accessoryParameters;
             ui.Configuration.SummaryFeatures = MPUMposUiConfigurationSummaryFeature.SendReceiptViaEmail;
 
-            
+
+
+            var tippingStepParams = MPOS.MPTransactionProcessTippingStepParameters.TippingAmountParametersWithOptionalsBlock((optionals) =>
+            {
+                optionals.SetShowConfirmationScreen(true);
+                // optionals.SetFormatWithIntegerDigits(6, 2);
+            });
+
+            //This line causes an InvalidCastException at runtime
+            var processParameters = MPOS.MPTransactionProcessParameters.ParametersWithSteps((steps) =>
+            {
+                steps.SetTippingStepParameters(tippingStepParams);
+            });
+
+
 
             /* PAYBUTTON REFUND */
 
