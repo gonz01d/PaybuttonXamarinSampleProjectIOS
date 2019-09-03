@@ -3025,7 +3025,7 @@ namespace MPOS
 
 
 
-
+    interface IMPTransactionProcessParametersSteps { }
 
     // @protocol MPTransactionProcessParametersSteps <NSObject>
     [Protocol, Model]
@@ -3044,7 +3044,7 @@ namespace MPOS
     }
 
     // typedef void (^MPTransactionProcessParametersStepsBlock)(id<MPTransactionProcessParametersSteps> _Nonnull);
-    delegate void MPTransactionProcessParametersStepsBlock(MPTransactionProcessParametersSteps arg0);
+    delegate void MPTransactionProcessParametersStepsBlock(IMPTransactionProcessParametersSteps arg0);
 
     // @interface MPTransactionProcessParameters : NSObject
     [BaseType(typeof(NSObject))]
