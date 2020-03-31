@@ -182,3 +182,5 @@ FakesAssemblies/
 *.userprefs
 
 .DS_Store
+GazTest/headers
+PayworksBindings/PayworksBindings/framework

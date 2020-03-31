@@ -3021,24 +3021,30 @@ namespace MPOS
         MPAccountParameters AlipayParametersWithShopperIdentifier(string shopperIdentifier, MPPaymentDetailsSource source);
     }
 
+
+
+
+
+    interface IMPTransactionProcessParametersSteps { }
+
     // @protocol MPTransactionProcessParametersSteps <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
     interface MPTransactionProcessParametersSteps
     {
         // @required -(void)addAskForTipStepWithSuggestedAmount:(NSDecimalNumber * _Nullable)suggestedAmount __attribute__((deprecated("Use setTippingStepParameters method")));
-        //[Abstract]
-        // [Export("addAskForTipStepWithSuggestedAmount:")]
-        //void AddAskForTipStepWithSuggestedAmount([NullAllowed] NSDecimalNumber suggestedAmount);
+        [Abstract]
+        [Export("addAskForTipStepWithSuggestedAmount:")]
+        void AddAskForTipStepWithSuggestedAmount([NullAllowed] NSDecimalNumber suggestedAmount);
 
         // @required -(void)setTippingStepParameters:(MPTransactionProcessTippingStepParameters * _Nullable)tippingStepParameters;
-        // [Abstract]
-        // [Export("setTippingStepParameters:")]
-        // void SetTippingStepParameters([NullAllowed] MPTransactionProcessTippingStepParameters tippingStepParameters);
+        [Abstract]
+        [Export("setTippingStepParameters:")]
+        void SetTippingStepParameters([NullAllowed] MPTransactionProcessTippingStepParameters tippingStepParameters);
     }
 
     // typedef void (^MPTransactionProcessParametersStepsBlock)(id<MPTransactionProcessParametersSteps> _Nonnull);
-    delegate void MPTransactionProcessParametersStepsBlock(MPTransactionProcessParametersSteps arg0);
+    delegate void MPTransactionProcessParametersStepsBlock(IMPTransactionProcessParametersSteps arg0);
 
     // @interface MPTransactionProcessParameters : NSObject
     [BaseType(typeof(NSObject))]
@@ -3110,21 +3116,98 @@ namespace MPOS
         [Static]
         [Export("totalAmountParametersWithTransactionAmount:currency:optionalsBlock:")]
         MPAccessoryComponentTippingParameters TotalAmountParametersWithTransactionAmount(NSDecimalNumber transactionAmount, NSObject currency, [NullAllowed] MPAccessoryComponentTippingTotalAmountParametersOptionalsBlock optionalsBlock);
-    }*/
+    }
 
 
+
+
+
+
+
+
+
+
+
+    // @protocol MPTransactionProcessTippingAmountStepParametersOptionals <MPTransactionProcessTippingStepParametersOptionals>
     /*
+  Check whether adding [Model] to this declaration is appropriate.
+  [Model] is used to generate a C# class that implements this protocol,
+  and might be useful for protocols that consumers are supposed to implement,
+  since consumers can subclass the generated class instead of implementing
+  the generated interface. If consumers are not supposed to implement this
+  protocol, then [Model] is redundant and will generate code that will never
+  be used.
+*/
+    [Protocol]
+    [BaseType(typeof(NSObject))]
+    interface MPTransactionProcessTippingAmountStepParametersOptionals : MPTransactionProcessTippingStepParametersOptionals
+    {
+    }
+
+    // @protocol MPTransactionProcessTippingTotalStepParametersOptionals <MPTransactionProcessTippingStepParametersOptionals>
+    /*
+  Check whether adding [Model] to this declaration is appropriate.
+  [Model] is used to generate a C# class that implements this protocol,
+  and might be useful for protocols that consumers are supposed to implement,
+  since consumers can subclass the generated class instead of implementing
+  the generated interface. If consumers are not supposed to implement this
+  protocol, then [Model] is redundant and will generate code that will never
+  be used.
+*/
+    [Protocol]
+    [BaseType(typeof(NSObject))]
+    interface MPTransactionProcessTippingTotalStepParametersOptionals : MPTransactionProcessTippingStepParametersOptionals
+    {
+        // @required -(void)setZeroAmountDefaultsToTransactionAmount:(BOOL)zeroAmountDefaultsToTransactionAmount;
+        [Abstract]
+        [Export("setZeroAmountDefaultsToTransactionAmount:")]
+        void SetZeroAmountDefaultsToTransactionAmount(bool zeroAmountDefaultsToTransactionAmount);
+    }
+
+    // @protocol MPTransactionProcessTippingStepParametersOptionals <NSObject>
+    /*
+  Check whether adding [Model] to this declaration is appropriate.
+  [Model] is used to generate a C# class that implements this protocol,
+  and might be useful for protocols that consumers are supposed to implement,
+  since consumers can subclass the generated class instead of implementing
+  the generated interface. If consumers are not supposed to implement this
+  protocol, then [Model] is redundant and will generate code that will never
+  be used.
+*/
+    [Protocol]
+    [BaseType(typeof(NSObject))]
+    interface MPTransactionProcessTippingStepParametersOptionals
+    {
+        // @required -(void)setShowConfirmationScreen:(BOOL)showConfirmationScreen;
+        [Abstract]
+        [Export("setShowConfirmationScreen:")]
+        void SetShowConfirmationScreen(bool showConfirmationScreen);
+
+        // @required -(void)setSuggestedAmount:(NSDecimalNumber * _Nullable)suggestedAmount;
+        [Abstract]
+        [Export("setSuggestedAmount:")]
+        void SetSuggestedAmount([NullAllowed] NSDecimalNumber suggestedAmount);
+
+        // @required -(void)setFormatWithIntegerDigits:(NSUInteger)integerDigits fractionDigits:(NSUInteger)fractionDigits;
+        [Abstract]
+        [Export("setFormatWithIntegerDigits:fractionDigits:")]
+        void SetFormatWithIntegerDigits(nuint integerDigits, nuint fractionDigits);
+    }
 
 
-    
+
+
+
+
+
 
 
 
     // typedef void (^MPTransactionProcessTippingAmountStepParametersOptionalsBlock)(id<MPTransactionProcessTippingAmountStepParametersOptionals> _Nonnull);
-    //delegate void MPTransactionProcessTippingAmountStepParametersOptionalsBlock(MPTransactionProcessTippingAmountStepParametersOptionals arg0);
+    delegate void MPTransactionProcessTippingAmountStepParametersOptionalsBlock(MPTransactionProcessTippingAmountStepParametersOptionals arg0);
 
     // typedef void (^MPTransactionProcessTippingTotalStepParametersOptionalsBlock)(id<MPTransactionProcessTippingTotalStepParametersOptionals> _Nonnull);
-    //delegate void MPTransactionProcessTippingTotalStepParametersOptionalsBlock(MPTransactionProcessTippingTotalStepParametersOptionals arg0);
+    delegate void MPTransactionProcessTippingTotalStepParametersOptionalsBlock(MPTransactionProcessTippingTotalStepParametersOptionals arg0);
 
 
     // @interface MPTransactionProcessTippingStepParameters : NSObject
@@ -3132,15 +3215,23 @@ namespace MPOS
     interface MPTransactionProcessTippingStepParameters
     {
         // +(instancetype _Nonnull)tippingAmountParametersWithOptionalsBlock:(MPTransactionProcessTippingAmountStepParametersOptionalsBlock _Nullable)optionalsBlock;
-        //[Static]
-        //[Export("tippingAmountParametersWithOptionalsBlock:")]
-        //MPTransactionProcessTippingStepParameters TippingAmountParametersWithOptionalsBlock([NullAllowed] MPTransactionProcessTippingAmountStepParametersOptionalsBlock optionalsBlock);
+        [Static]
+        [Export("tippingAmountParametersWithOptionalsBlock:")]
+        MPTransactionProcessTippingStepParameters TippingAmountParametersWithOptionalsBlock([NullAllowed] MPTransactionProcessTippingAmountStepParametersOptionalsBlock optionalsBlock);
 
         // +(instancetype _Nonnull)tippingTotaltParametersWithOptionalsBlock:(MPTransactionProcessTippingTotalStepParametersOptionalsBlock _Nullable)optionalsBlock;
-        //[Static]
-        //[Export("tippingTotaltParametersWithOptionalsBlock:")]
-        //MPTransactionProcessTippingStepParameters TippingTotaltParametersWithOptionalsBlock([NullAllowed] MPTransactionProcessTippingTotalStepParametersOptionalsBlock optionalsBlock);
-    }*/
+        [Static]
+        [Export("tippingTotaltParametersWithOptionalsBlock:")]
+        MPTransactionProcessTippingStepParameters TippingTotaltParametersWithOptionalsBlock([NullAllowed] MPTransactionProcessTippingTotalStepParametersOptionalsBlock optionalsBlock);
+    }
+
+
+
+
+
+
+
+
 
     // @interface MPLocalizationToolbox : NSObject
     [BaseType(typeof(NSObject))]

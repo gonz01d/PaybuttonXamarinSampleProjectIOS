@@ -47,14 +47,27 @@ namespace PayworksSample
             ui.Configuration.TerminalParameters = accessoryParameters;
             ui.Configuration.SummaryFeatures = MPUMposUiConfigurationSummaryFeature.SendReceiptViaEmail;
 
-            
+
+            // Tipping Step
+            var tippingStepParams = MPOS.MPTransactionProcessTippingStepParameters.TippingAmountParametersWithOptionalsBlock((optionals) =>
+            {
+                optionals.SetShowConfirmationScreen(true);
+                optionals.SetFormatWithIntegerDigits(6, 2);
+            });
+
+            var processParameters = MPOS.MPTransactionProcessParameters.ParametersWithSteps((steps) =>
+            {
+                steps.SetTippingStepParameters(tippingStepParams);
+            });
+
+
 
             /* PAYBUTTON REFUND */
 
            /* ui.Configuration.SummaryFeatures = MPUMposUiConfigurationSummaryFeature.SendReceiptViaEmail;
             var transactionParameters = MPOS.MPTransactionParameters.RefundForTransactionIdentifier("testabc", null);*/
 
-            var viewController = ui.CreateTransactionViewControllerWithTransactionParameters(transactionParameters, (vc, result, transaction) =>
+            var viewController = ui.CreateTransactionViewControllerWithTransactionParameters(transactionParameters, processParameters, (vc, result, transaction) =>
             {
                 this.DismissViewController(true, null);
 
